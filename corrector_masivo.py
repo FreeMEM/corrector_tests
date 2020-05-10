@@ -203,6 +203,13 @@ for i in range((cuestionario.shape[0])):
             score = score + test["puntuaciones"][row[item+4].replace(".","")]
         # print("%s %s" % (test["group"], score))
     resultados["Autoestima Rossemberg"].append(score)
+
+    if score < 25:
+        resultados["Valoración Rossemberg"].append("Baja autoestima")
+    if 25 <= score and score <= 35:
+        resultados["Valoración Rossemberg"].append("Valores normales")
+    if score > 35:
+        resultados["Valoración Rossemberg"].append("Autoestima elevada")
     
     # break
 
