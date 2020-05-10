@@ -26,18 +26,18 @@ autoestima_rossemberg = [
 
 
 alexitimia_tas20 = [
-    {
-        "items": [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
-        "group": "totales",
-        "puntuaciones": {
-            "Muy en desacuerdo": 0,
-            "En desacuerdo": 1,
-            "Ligeramente en desacuerdo": 2,
-            "Ligeramente de acuerdo": 3,
-            "De acuerdo": 4,
-            "Muy de acuerdo": 5,
-        }
-    },
+    # {
+    #     "items": [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
+    #     "group": "totales",
+    #     "puntuaciones": {
+    #         "Muy en desacuerdo": 0,
+    #         "En desacuerdo": 1,
+    #         "Ligeramente en desacuerdo": 2,
+    #         "Ligeramente de acuerdo": 3,
+    #         "De acuerdo": 4,
+    #         "Muy de acuerdo": 5,
+    #     }
+    # },
     {
         "items": [17, 19, 22, 23, 25, 29, 30],
         "group": "a",
@@ -140,7 +140,12 @@ resultados = {"Id":[],
               "Autoestima Rossemberg": [],
               "Valoración Rossemberg": [],
               "Alexitimia TAS-20": [],
-              "BSQ Cooper": []
+              "Valoración Alexitimia TAS-20": [],
+              "Alexitimia TAS-20 grupo A": [],
+              "Alexitimia TAS-20 grupo B": [],
+              "Alexitimia TAS-20 grupo C": [],
+              "BSQ Cooper": [],
+              "Valoración BSQ Cooper": []
               }
 
 
@@ -195,7 +200,7 @@ for i in range((cuestionario.shape[0])):
     if 40 <= imc:
         resultados["Clasificación IMC"].append("Mórbida")
 
-    # test rossemberg
+    # test Rossemberg
     score = 0
     for test in autoestima_rossemberg:
         for item in test["items"]:
@@ -204,6 +209,7 @@ for i in range((cuestionario.shape[0])):
         # print("%s %s" % (test["group"], score))
     resultados["Autoestima Rossemberg"].append(score)
 
+    # valoración Rossemberg
     if score < 25:
         resultados["Valoración Rossemberg"].append("Baja autoestima")
     if 25 <= score and score <= 35:
@@ -211,8 +217,62 @@ for i in range((cuestionario.shape[0])):
     if score > 35:
         resultados["Valoración Rossemberg"].append("Autoestima elevada")
     
-    # break
+    # test TAS-20 completo
+    score = 0
+    for test in alexitimia_tas20:
+        for item in test["items"]:
+            # print("%s %s" % (row[item+4], test["puntuaciones"][row[item+4].replace(".","")]))
+            score = score + test["puntuaciones"][row[item+4].replace(".","")]
+    resultados["Alexitimia TAS-20"].append(score)
+    # valoración TAS-20 completo
+    if score <= 51:
+        resultados["Valoración Alexitimia TAS-20"].append("Ausencia de alexitimia")
+    if 51 < score and score <= 60:
+        resultados["Valoración Alexitimia TAS-20"].append("Posible alexitimia")
+    if score > 60:
+        resultados["Valoración Alexitimia TAS-20"].append("Alexitimia")
 
-    # row_list.append(list(cuestionario.iloc[i, :])) 
-pprint(resultados)
+    # test TAS-20 grupo a
+    score = 0
+    for test in alexitimia_tas20:
+        if test["group"] == "a" or test["group"] == "a_inversa":
+            for item in test["items"]:
+                # print("%s %s" % (row[item+4], test["puntuaciones"][row[item+4].replace(".","")]))
+                score = score + test["puntuaciones"][row[item+4].replace(".","")]
+    resultados["Alexitimia TAS-20 grupo A"].append(score)
 
+    # test TAS-20 grupo b
+    score = 0
+    for test in alexitimia_tas20:
+        if test["group"] == "b" or test["group"] == "b_inversa":
+            for item in test["items"]:
+                # print("%s %s" % (row[item+4], test["puntuaciones"][row[item+4].replace(".","")]))
+                score = score + test["puntuaciones"][row[item+4].replace(".","")]
+    resultados["Alexitimia TAS-20 grupo B"].append(score)
+
+    # test TAS-20 grupo c
+    score = 0
+    for test in alexitimia_tas20:
+        if test["group"] == "c" or test["group"] == "c_inversa":
+            for item in test["items"]:
+                # print("%s %s" % (row[item+4], test["puntuaciones"][row[item+4].replace(".","")]))
+                score = score + test["puntuaciones"][row[item+4].replace(".","")]
+    resultados["Alexitimia TAS-20 grupo C"].append(score)
+
+    # test BSQ Cooper
+    score = 0
+    for test in bsq_cooper:
+        for item in test["items"]:
+            # print("%s %s" % (row[item+4], test["puntuaciones"][row[item+4].replace(".","")]))
+            score = score + test["puntuaciones"][row[item+4].replace(".","")]
+    resultados["BSQ Cooper"].append(score)
+
+    # valoración BSQ
+    if score >= 105:
+        resultados["Valoración BSQ Cooper"].append("Patología")
+    else:
+        resultados["Valoración BSQ Cooper"].append("Ausencia patología")
+
+df = pandas.DataFrame(resultados)
+
+df.to_csv("resultados.csv")
