@@ -1,5 +1,5 @@
 import pandas
-from pprint import pprint
+# from pprint import pprint
 # datos y puntuaciones
 autoestima_rossemberg = [
     {
@@ -130,7 +130,7 @@ bsq_cooper = [
 # carga file
 cuestionario = pandas.read_csv('../cuestionario.csv')
 
-resultados = {"Id":[],
+resultados = {"Id": [],
               "Edad": [],
               "Género": [],
               "Peso": [],
@@ -157,15 +157,15 @@ def parse_to_numeric(cadena):
         else:
             if n == "/":
                 partes = cadena.split("/")
-                total = ((float(partes[1]) - float(partes[0]))/2) + float(partes[0])
+                total = ((float(partes[1]) - float(partes[0])) / 2) + float(partes[0])
                 convertido = str(total)
                 break
             if n == ",":
-                convertido = convertido + n.replace(",",".")
+                convertido = convertido + n.replace(",", ".")
             if n == "'":
-                convertido = convertido + n.replace("'",".")
+                convertido = convertido + n.replace("'", ".")
             if n == ".":
-                convertido = convertido + n  
+                convertido = convertido + n
     return convertido
 
 
@@ -205,7 +205,7 @@ for i in range((cuestionario.shape[0])):
     for test in autoestima_rossemberg:
         for item in test["items"]:
             # pprint(row[item+4])
-            score = score + test["puntuaciones"][row[item+4].replace(".","")]
+            score = score + test["puntuaciones"][row[item + 4].replace(".", "")]
         # print("%s %s" % (test["group"], score))
     resultados["Autoestima Rossemberg"].append(score)
 
@@ -216,13 +216,13 @@ for i in range((cuestionario.shape[0])):
         resultados["Valoración Rossemberg"].append("Valores normales")
     if score > 35:
         resultados["Valoración Rossemberg"].append("Autoestima elevada")
-    
+
     # test TAS-20 completo
     score = 0
     for test in alexitimia_tas20:
         for item in test["items"]:
             # print("%s %s" % (row[item+4], test["puntuaciones"][row[item+4].replace(".","")]))
-            score = score + test["puntuaciones"][row[item+4].replace(".","")]
+            score = score + test["puntuaciones"][row[item + 4].replace(".", "")]
     resultados["Alexitimia TAS-20"].append(score)
     # valoración TAS-20 completo
     if score <= 51:
@@ -238,7 +238,7 @@ for i in range((cuestionario.shape[0])):
         if test["group"] == "a" or test["group"] == "a_inversa":
             for item in test["items"]:
                 # print("%s %s" % (row[item+4], test["puntuaciones"][row[item+4].replace(".","")]))
-                score = score + test["puntuaciones"][row[item+4].replace(".","")]
+                score = score + test["puntuaciones"][row[item + 4].replace(".", "")]
     resultados["Alexitimia TAS-20 grupo A"].append(score)
 
     # test TAS-20 grupo b
@@ -247,7 +247,7 @@ for i in range((cuestionario.shape[0])):
         if test["group"] == "b" or test["group"] == "b_inversa":
             for item in test["items"]:
                 # print("%s %s" % (row[item+4], test["puntuaciones"][row[item+4].replace(".","")]))
-                score = score + test["puntuaciones"][row[item+4].replace(".","")]
+                score = score + test["puntuaciones"][row[item + 4].replace(".", "")]
     resultados["Alexitimia TAS-20 grupo B"].append(score)
 
     # test TAS-20 grupo c
@@ -256,7 +256,7 @@ for i in range((cuestionario.shape[0])):
         if test["group"] == "c" or test["group"] == "c_inversa":
             for item in test["items"]:
                 # print("%s %s" % (row[item+4], test["puntuaciones"][row[item+4].replace(".","")]))
-                score = score + test["puntuaciones"][row[item+4].replace(".","")]
+                score = score + test["puntuaciones"][row[item + 4].replace(".", "")]
     resultados["Alexitimia TAS-20 grupo C"].append(score)
 
     # test BSQ Cooper
@@ -264,7 +264,7 @@ for i in range((cuestionario.shape[0])):
     for test in bsq_cooper:
         for item in test["items"]:
             # print("%s %s" % (row[item+4], test["puntuaciones"][row[item+4].replace(".","")]))
-            score = score + test["puntuaciones"][row[item+4].replace(".","")]
+            score = score + test["puntuaciones"][row[item + 4].replace(".", "")]
     resultados["BSQ Cooper"].append(score)
 
     # valoración BSQ
