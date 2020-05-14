@@ -138,7 +138,7 @@ resultados = {"Id": [],
               "IMC": [],
               "Clasificación IMC": [],
               "Autoestima Rossemberg": [],
-              "Valoración Rossemberg": [],
+            #   "Valoración Rossemberg": [],
               "Alexitimia TAS-20": [],
               "Valoración Alexitimia TAS-20": [],
               "Alexitimia TAS-20 grupo A": [],
@@ -193,12 +193,14 @@ for i in range((cuestionario.shape[0])):
         resultados["Clasificación IMC"].append("Normopeso")
     if 25 <= imc and imc < 30:
         resultados["Clasificación IMC"].append("Sobrepeso")
-    if 30 < imc and imc < 35:
-        resultados["Clasificación IMC"].append("Obesidad tipo I")
-    if 35 < imc and imc < 40:
-        resultados["Clasificación IMC"].append("Obesidad tipo II")
-    if 40 <= imc:
-        resultados["Clasificación IMC"].append("Mórbida")
+    if imc >= 30:
+        resultados["Clasificación IMC"].append("Obesidad")
+    # if 30 < imc and imc < 35:
+    #     resultados["Clasificación IMC"].append("Obesidad tipo I")
+    # if 35 < imc and imc < 40:
+    #     resultados["Clasificación IMC"].append("Obesidad tipo II")
+    # if 40 <= imc:
+    #     resultados["Clasificación IMC"].append("Mórbida")
 
     # test Rossemberg
     score = 0
@@ -210,12 +212,12 @@ for i in range((cuestionario.shape[0])):
     resultados["Autoestima Rossemberg"].append(score)
 
     # valoración Rossemberg
-    if score < 25:
-        resultados["Valoración Rossemberg"].append("Baja autoestima")
-    if 25 <= score and score <= 35:
-        resultados["Valoración Rossemberg"].append("Valores normales")
-    if score > 35:
-        resultados["Valoración Rossemberg"].append("Autoestima elevada")
+    # if score < 25:
+    #     resultados["Valoración Rossemberg"].append("Baja autoestima")
+    # if 25 <= score and score <= 35:
+    #     resultados["Valoración Rossemberg"].append("Valores normales")
+    # if score > 35:
+    #     resultados["Valoración Rossemberg"].append("Autoestima elevada")
 
     # test TAS-20 completo
     score = 0
