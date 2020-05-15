@@ -130,8 +130,8 @@ bsq_cooper = [
 # carga file
 cuestionario = pandas.read_csv('../cuestionario.csv')
 
-resultados = {"Id": [],
-              "Edad": [],
+resultados = {"Edad": [],
+              "Grupo edad": [],
               "Género": [],
               "Peso": [],
               "Altura": [],
@@ -171,8 +171,18 @@ def parse_to_numeric(cadena):
 
 for i in range((cuestionario.shape[0])):
     row = list(cuestionario.iloc[i, :])
-    resultados["Id"].append(row[0])
-    resultados["Edad"].append(parse_to_numeric(row[7]))
+    # resultados["Id"].append(row[0])
+    # print(row[0])
+    edad = int(parse_to_numeric(row[7]))
+    
+    resultados["Edad"].append(edad)
+    if 18 <= edad and edad <= 30:
+        resultados["Grupo edad"].append("18-30")
+    if 31 <= edad and edad <= 43:
+        resultados["Grupo edad"].append("31-43")
+    if 44 <= edad and edad <= 55:
+        resultados["Grupo edad"].append("44-55")
+    # print("%s %s %s" % (row[0], edad, resultados["Grupo edad"].pop()))
     resultados["Género"].append(row[8])
     peso = float(parse_to_numeric(row[9]))
     # print("peso: %s %s" % (row[9],peso))
@@ -275,6 +285,10 @@ for i in range((cuestionario.shape[0])):
     else:
         resultados["Valoración BSQ Cooper"].append("Ausencia patología")
 
+# for key,value in resultados.items():
+#     print(len(value))
+
+
 df = pandas.DataFrame(resultados)
 
-df.to_csv("resultados.csv")
+df.to_csv("resultados.csv", mode = 'w', index=False)
