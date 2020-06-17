@@ -174,7 +174,8 @@ for i in range((cuestionario.shape[0])):
     # resultados["Id"].append(row[0])
     # print(row[0])
     edad = int(parse_to_numeric(row[7]))
-    
+    if not edad or (18 > edad and edad > 55):
+        continue
     resultados["Edad"].append(edad)
     if 18 <= edad and edad <= 30:
         resultados["Grupo edad"].append("18-30")
